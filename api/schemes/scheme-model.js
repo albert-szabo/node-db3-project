@@ -174,8 +174,12 @@ async function add(scheme) {
     including the newly created one.
   */
 
-function addStep(scheme_id, step) {
-
+async function addStep(scheme_id, step) {
+  await database('steps').insert({
+    ...step,
+    scheme_id
+  });
+  return database('steps').where('scheme_id', scheme_id);  
 }
 
 module.exports = {

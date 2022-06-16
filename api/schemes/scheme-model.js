@@ -142,8 +142,18 @@ async function findById(scheme_id) {
       ]
   */
 
-function findSteps(scheme_id) {
+async function findSteps(scheme_id) {
+  const rows = await database('schemes as sc')
+    .leftJoin('steps as st', 'sc.scheme_id', 'st.scheme_id')
+    .select('step_id', 'step_number', 'instructions', 'sc.scheme_name')
+    .where('sc.scheme_id', scheme_id)
+    .orderBy('step_number');
 
+    if (!rows[0].step_id) {
+      return [];
+    } else {
+      return rows;
+    }
 }
 
 // EXERCISE D

@@ -32,7 +32,12 @@ const checkSchemeId = async (request, response, next) => {
 */
 
 const validateScheme = (request, response, next) => {
-
+  const { scheme_name } = request.body;
+  if (!scheme_name || typeof scheme_name !== 'string' || !scheme_name.trim()) {
+    next({ status: 400, message: 'invalid scheme_name' });
+  } else {
+    next();
+  }
 };
 
 /*
